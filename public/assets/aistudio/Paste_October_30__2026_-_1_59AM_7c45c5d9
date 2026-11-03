@@ -1,0 +1,668 @@
+A PROJECT REPORT ON
+PATHFORGE
+A PERSONALIZED CAREER ROADMAP & SKILL DIAGNOSTIC ENGINE
+Submitted in partial fulfillment for the award of the degree of
+BACHELOR OF COMPUTER APPLICATIONS (B.C.A.)
+Submitted By
+Mohammad Tameem Mustafa    (Roll No. 137)
+Under the Guidance of
+[Guide Name]
+S.O.C.M.A.C.S. Senior College, Pune
+Department of Computer Applications
+CERTIFICATE
+This is to certify that the project entitled “PathForge – A Personalized Career Roadmap & Skill Diagnostic Engine” submitted by Mohammad Tameem Mustafa (Roll No. 137), a student of Bachelor of Computer Applications (B.C.A.), has been successfully completed in partial fulfillment of the requirements for the award of the degree of Bachelor of Computer Applications.
+The work was carried out under my guidance and supervision. To the best of my knowledge, the project is the original work of the candidate and has not been submitted elsewhere for any other degree or diploma.
+ 
+______________________
+Project Guide
+[Guide Name]	 
+______________________
+Head of Department
+[Name]	 
+______________________
+External Examiner
+[Name]
+
+Date: ____ / ____ / ________
+Place: Pune
+(College Stamp)
+DECLARATION
+I, Mohammad Tameem Mustafa (Roll No. 137), hereby declare that this project report titled “PathForge – A Personalized Career Roadmap & Skill Diagnostic Engine” is a record of the work done by me under the guidance of [Guide Name], in partial fulfillment of the requirements for the degree of Bachelor of Computer Applications.
+I further declare that this work has not been submitted, in part or in full, to any other university or institution for the award of any degree, diploma or certificate.
+Place: Pune                                                                    Signature: ______________________
+Date: ____ / ____ / ________                                        (Mohammad Tameem Mustafa, Roll No. 137)
+ACKNOWLEDGEMENT
+I would like to express my sincere gratitude to my project guide, [Guide Name], for the valuable guidance, patience and constructive feedback given throughout the development of this project. Their suggestions helped me plan the work properly and improve the quality of the final system.
+I am also thankful to the Department of Computer Applications, the faculty members of S.O.C.M.A.C.S. Senior College, and the college management for providing the environment and resources needed to complete this work.
+Finally, I thank my family and friends for their constant encouragement and support.
+Mohammad Tameem Mustafa
+ABSTRACT
+When students or beginners want to break into a tech career — Web Development, Data Analytics, Android App Development, and so on — they routinely get lost. Every course starts from zero, even for skills the learner already has, and there is no clear answer to “what do I learn next, and how long will it take?” This wastes time and causes tutorial fatigue, where learners abandon long generic courses without ever reaching a job-ready skill set.
+PathForge is a personalised career roadmap and skill diagnostic web platform built to solve exactly this problem. Instead of pushing every learner through the same long course, PathForge first benchmarks what the student already knows through an adaptive diagnostic quiz and an interactive skill-check matrix. It pre-credits the skills the student has already mastered, so they are not forced to relearn them, and then generates an ordered, milestone-by-milestone roadmap tailored to one of five in-demand career tracks: Full-Stack Web Development, Data Analyst, UI/UX Designer, Android App Developer, and Digital Marketing Specialist.
+The roadmap can be explored through a Timeline/Network view, an IDE Workbench with project instructions and documentation links, and a drag-and-drop Kanban board (To Learn / In Progress / Mastered). A Sprint Planner with a pace slider (5 to 40 hours per week) projects an estimated graduation date, and a built-in Pomodoro focus timer supports study sessions. An Analytics Dashboard shows a donut progress ring, study hours completed versus remaining, and a daily learning streak counter, while a theme customiser offers dark/light mode and four accent colour themes.
+The application is built with React 18, TypeScript and Tailwind CSS, bundled with Vite, and currently runs as a front-end prototype with all data (career tracks, milestones, quiz questions) stored locally in seedData.ts and browser localStorage. A companion PHP 8 and MySQL (PDO) reference architecture is included in-app for academic viva demonstration, alongside the modern cloud deployment on Vercel. This report describes the existing problem, the requirement specification, the system analysis and design using standard diagrams, the implementation with screens, the roadmap-generation algorithm and code, the test cases, the user manual, and the limitations and future enhancements of the project.
+Keywords: career roadmap, skill diagnostic, adaptive quiz, React, TypeScript, Tailwind CSS, Vite, Progressive front-end prototype, Vercel.
+INDEX
+CHAPTER 1	INTRODUCTION	Page No
+1.1	Introduction	6
+1.2	Existing System and Need for the System	7
+1.3	Scope of Work	8
+1.4	Operating Environment – Hardware and Software	9
+1.5	Detail Description of the Technology Used	10 – 11
+CHAPTER 2	SOFTWARE REQUIREMENT SPECIFICATION AND PROPOSED SYSTEM	
+2.1	Proposed System	12
+2.2	Objectives of System	13
+2.3	User Requirements	14
+2.3.1	Overall Description	14
+2.3.2	Specific Requirements (Functional Requirements)	15
+2.3.3	Other Non-functional Requirements	16
+CHAPTER 3	ANALYSIS & DESIGN	
+3.1	System Flow Diagram (CLD / System Level Use Case)	17 – 18
+3.2	Object Diagram	19
+3.3	List of Classes & Class Diagram	20 – 21
+3.4	List of Use Case & Use Case Diagrams	22 – 23
+3.5	Sequence Diagram (Roadmap Generation Lifecycle)	24
+3.6	Activity Diagram (Student Workflow)	25
+3.7	Deployment Diagram (Vercel & XAMPP Reference)	26
+3.8	Web Site Map Diagram	27
+CHAPTER 4	IMPLEMENTATION & USER MANUAL	
+4.1	User Interface Design (Screens & Modules)	28 – 34
+4.2	Program Specifications / Flow Charts	35
+4.3	Code Snippet (Roadmap Engine & PHP/MySQL Reference)	36 – 37
+4.4	Test Procedures, Test Cases and Implementation	38 – 39
+4.5	User Manual	40
+4.6	Operations Manual / Menu Explanation	41
+
+Drawbacks and Limitations Proposed ............................................ 42
+Enhancements & Conclusions .................................................... 43
+Bibliography & References ....................................................... 44
+CHAPTER 1: INTRODUCTION
+1.1 Introduction
+When students or beginners want to get a job in tech — Web Development, Data Analytics, or Android App Development — they routinely get lost. Common questions go unanswered: “Where do I start?”, “What do I learn first?”, “I already know HTML/CSS, why do courses force me to start from zero again?”, and “How many hours will it take to finish?” Generic video courses treat every learner identically, regardless of what they already know, which wastes time and causes many learners to abandon their studies before reaching a job-ready skill set.
+PathForge is a Personalized Career Roadmap & Skill Diagnostic Engine built by Mohammad Tameem Mustafa (Roll No. 137) to solve exactly this problem. Instead of giving every learner the same long, boring video course, PathForge benchmarks what the student already knows through a diagnostic quiz and interactive check matrix, pre-credits existing skills so the learner does not waste time relearning them, and generates an ordered, milestone-by-milestone roadmap tailored to the student’s exact career goal. The system also tracks the student’s velocity, study hours, active streaks and project deliverables along the way.
+1.2 Existing System and Need for the System
+Limitations of existing systems
+Existing method	Problem
+Generic video-course platforms	Every learner follows the exact same syllabus from lesson one, regardless of prior knowledge, wasting time on material the learner has already mastered.
+Scattered free tutorials (YouTube, blogs)	No structured order, no way to measure progress, and no single source of truth for what to learn next.
+Static roadmap images / PDFs	Shared as one-size-fits-all charts; they cannot adapt to what a specific learner already knows, and have no way to track completion.
+No time-to-completion estimate	Learners rarely know how many hours or weeks a goal will realistically take at their own pace, making it hard to plan or stay motivated.
+Need for PathForge
+•	A diagnostic-first approach that benchmarks existing skills before assigning any learning material.
+•	A personalised, ordered roadmap across Fundamentals → Intermediate → Advanced stages, specific to one of several in-demand career tracks.
+•	Multiple ways to view and act on the roadmap — timeline, hands-on workbench, and a Kanban board — so different learning styles are supported.
+•	Pace-aware planning, so a learner studying 5 hours a week and one studying 40 hours a week both get an honest, personalised graduation-date estimate.
+Comparison of existing systems and PathForge
+Feature	Generic courses / tutorials	PathForge
+Skips what you already know	No	Yes (diagnostic pre-credit)
+Personalised roadmap order	No	Yes
+Time-to-completion estimate	Rarely	Yes (pace slider)
+Progress tracking (streak, hours)	Rarely	Yes
+Multiple roadmap views	No	Yes (Timeline, IDE, Kanban)
+1.3 Scope of Work
+In scope
+1.	Career Track Explorer – browse 5 high-demand tech tracks (Full-Stack Web Development, Data Analyst, UI/UX Designer, Android App Developer, Digital Marketing Specialist), each with estimated duration, expected junior salary and key tech stack.
+2.	Skill Diagnostic Benchmark – a 5-question adaptive quiz plus an interactive check matrix with one-click presets (Fresh Beginner, CS Student, Career Switcher) that pre-credits mastered skills.
+3.	Multi-View Interactive Roadmap – a Timeline/Network view, an IDE Workbench with project instructions and documentation links, a Kanban board, a Sprint Planner with a pace slider, and a Pomodoro focus timer.
+4.	Analytics Dashboard – a donut progress ring, total study hours completed vs. remaining, and a daily learning streak counter.
+5.	Theme & Accent Customizer – Dark/Light mode plus four accent colour themes (Emerald Aurora, Electric Violet, Cyber Cyan, Sunset Amber).
+Out of scope (current version)
+•	User accounts and cloud sync are not implemented; progress is saved only in the current browser’s localStorage.
+•	Social login (Google / GitHub) is not implemented.
+•	AI-generated feedback on submitted code is not implemented; it is listed as a future enhancement.
+1.4 Operating Environment – Hardware and Software
+Hardware requirements
+Component	Requirement
+Processor	Intel Core i3 / AMD Ryzen 3 or higher
+RAM	Minimum 4 GB (8 GB recommended for development)
+Storage	300 MB free space for the codebase and node modules
+Display	Responsive from 360 px mobile width up to 1920×1080 desktop
+Software requirements
+Component	Requirement
+Operating system	Windows 10/11, macOS, or Linux — platform independent
+Web browser	Google Chrome, Mozilla Firefox, Microsoft Edge or Safari (latest versions)
+Client-side tooling	Node.js (v18.x or v20.x LTS), Vite, TypeScript
+Academic reference stack	PHP 8+ and MySQL (for the in-app viva-reference architecture viewer)
+Cloud hosting	Vercel Global Edge Network
+1.5 Detail Description of the Technology Used
+Think of building an app like building a house. Each technology plays a different role:
+Technology	Role in the app	Simple analogy
+HTML5	Content & structure	The brick walls, rooms and doors — headings, buttons and text cards.
+Tailwind CSS	Styling & visual design	The paint, interior design, lighting, dark-mode colours, rounded corners and spacing.
+TypeScript / JavaScript	Logic & brain	The electrical wiring and smart switches — clicking a checkbox calculates the percentage, updates the bar, and runs the timer.
+React 18	UI framework (components)	Like LEGO blocks — one reusable <MilestoneCard /> component is built once and reused everywhere instead of rewriting the same card fifty times.
+Vite	Build tool / bundler	The high-speed workshop that packages all the code and starts the app instantly.
+PHP 8 & MySQL (reference architecture). Complete PHP + MySQL PDO source code is included in /src/data/phpSourceCode.ts and shown through an in-app “PHP/MySQL Source Architecture” viewer, so the same data model can be demonstrated on a traditional XAMPP academic stack during the college viva, even though the live application runs as a modern front-end prototype.
+Layered architecture of the system
+ 
+Figure 1.1 – Layered architecture of PathForge
+Module structure
+ 
+Figure 1.2 – Module structure: Track & Diagnostic, Roadmap Workspace, Analytics & Settings
+CHAPTER 2: SOFTWARE REQUIREMENT SPECIFICATION AND PROPOSED SYSTEM
+2.1 Proposed System
+PathForge is designed as a single-page application centred around one core idea: don’t teach a student what they already know. When a student opens the app, they choose one of five career tracks, then complete a short diagnostic quiz and check matrix. The Roadmap Engine immediately pre-credits any skill the student has already demonstrated and generates a personalised, ordered roadmap covering only the remaining milestones.
+The roadmap can then be explored in three complementary views — a visual Timeline/Network, a hands-on IDE Workbench, and a drag-and-drop Kanban board — while a Sprint Planner lets the student trade off pace against graduation date, and a Pomodoro timer supports focused study sessions. An Analytics Dashboard keeps the student motivated with a live progress ring, hours tracker and streak counter.
+Main modules of the system
+Module	What it does
+Career Track Explorer	Lets the student browse and select one of five career tracks with duration, salary and tech-stack preview.
+Skill Diagnostic Benchmark	Runs the adaptive quiz and check matrix; pre-credits mastered skills.
+Roadmap Engine	Generates the ordered, milestone-by-milestone roadmap from the diagnostic result.
+Roadmap Workspace	Timeline/Network view, IDE Workbench, Kanban board, Sprint Planner and Pomodoro timer.
+Analytics Dashboard	Progress ring, study-hours tracker and streak counter.
+Theme & Accent Customizer	Dark/Light mode and four accent colour themes.
+2.2 Objectives of System
+1.	Eliminate tutorial fatigue – stop forcing every learner through the same syllabus regardless of what they already know.
+2.	Benchmark before teaching – measure existing competency through an adaptive diagnostic quiz and skill matrix before assigning any milestone.
+3.	Save learners time – pre-credit mastered skills and calculate the time saved compared to a generic course.
+4.	Give an honest completion estimate – let the student see a realistic graduation date based on their own weekly study pace.
+5.	Keep the learner motivated – track streaks, study hours and milestone completion visually.
+How the objectives are achieved
+Objective	Feature that achieves it
+Eliminate tutorial fatigue	Personalised, non-linear roadmap instead of one fixed course order
+Benchmark before teaching	5-question adaptive quiz + Interactive Check Matrix presets
+Save learners time	Pre-credit logic in the Roadmap Engine skips mastered milestones
+Honest completion estimate	Sprint Planner pace slider (5–40 hrs/week) → graduation date
+Keep learner motivated	Analytics Dashboard: donut ring, hours tracker, streak counter
+2.3 User Requirements
+2.3.1 Overall Description
+PathForge serves a single user persona: the learner — a student or early-career professional preparing for a tech role. Unlike many academic projects, there is no separate administrator role in this version; the student is both the content consumer and the one managing their own progress.
+Product perspective
+PathForge is a standalone front-end prototype. All career tracks, milestones and quiz questions come from a local mock data file (seedData.ts), and all progress is stored in the browser’s localStorage. The data model is intentionally designed so it can later be backed by a real cloud database without changing the screens.
+User characteristics
+Characteristic	Description
+Who uses it	BCA/CS students, self-taught beginners, and career switchers aiming for a tech role.
+Technical skill	Ranges from complete beginner to someone who already knows some HTML/CSS/basic programming.
+Frequency of use	Regular, ideally daily, to build and maintain a study streak.
+Devices	Laptop or desktop primarily, with a fully responsive mobile layout.
+Typical usage scenarios
+Scenario	What the user does
+First-time visitor	Browses the 5 career tracks, compares salary and duration, and picks one to start.
+Taking the diagnostic	Answers 5 adaptive questions or picks a preset (e.g. “CS Student”) on the check matrix; sees which skills are instantly marked Mastered.
+Daily study session	Opens the Kanban board, starts a Pomodoro timer, works through a milestone in the IDE Workbench, then marks it Mastered.
+Planning ahead	Moves the Pace Slider from 10 to 20 hours/week and watches the estimated graduation date update immediately.
+2.3.2 Specific Requirements (Functional Requirements)
+ID	Requirement
+FR-01	The system shall display 5 career tracks with duration, expected junior salary and key tech stack.
+FR-02	The system shall present a 5-question adaptive diagnostic quiz and an interactive check-matrix with presets.
+FR-03	The system shall pre-credit any skill confirmed by the diagnostic as already mastered.
+FR-04	The system shall generate an ordered roadmap of milestones (Fundamentals → Intermediate → Advanced) excluding pre-credited skills.
+FR-05	The system shall offer Timeline/Network, IDE Workbench and Kanban views of the same roadmap.
+FR-06	The system shall allow the student to move a milestone between To Learn, In Active Progress and Mastered.
+FR-07	The system shall recalculate the estimated graduation date whenever the pace slider (5–40 hrs/week) changes.
+FR-08	The system shall provide a 25-minute Pomodoro focus timer.
+FR-09	The system shall display a donut progress ring, total study hours and a daily streak counter.
+FR-10	The system shall allow the student to switch between Dark/Light mode and 4 accent themes.
+Requirement traceability
+Req.	Requirement (short)	Use case	Module
+FR-01	Track catalog display	UC-01	Career Track Explorer
+FR-02, FR-03	Diagnostic + pre-credit	UC-02	Skill Diagnostic Benchmark
+FR-04	Roadmap generation	UC-03	Roadmap Engine
+FR-05, FR-06	Roadmap views + Kanban	UC-03, UC-04	Roadmap Workspace
+FR-07	Pace-based graduation date	UC-05	Sprint Planner
+FR-08	Pomodoro timer	UC-06	Roadmap Workspace
+FR-09	Analytics	UC-07	Analytics Dashboard
+FR-10	Theming	UC-08	Theme & Accent Customizer
+External interface requirements
+•	User interface: a single responsive student view with a persistent navigation bar to Track Explorer, Roadmap, Analytics and Settings.
+•	Hardware interface: none.
+•	Software interface: browser localStorage for progress; the in-app PHP/MySQL source viewer for the academic reference architecture.
+2.3.3 Other Non-functional Requirements
+Type	Requirement
+Performance	Vite-bundled production build should load in under 1.5 seconds on a normal connection; UI interactions (slider, drag-and-drop) should feel instant.
+Usability	Diagnostic completes in under 3 minutes; roadmap views are switchable in one click; Pomodoro timer starts with one click.
+Reliability	Progress persists across browser refreshes via localStorage; a missing or corrupted storage value falls back gracefully to defaults.
+Maintainability	Career tracks, milestones and quiz questions live in one seed data file, so content can be updated without touching UI code.
+Portability	Runs on any device with a modern browser; also ships as a single frontend_standalone.html file for zero-configuration presentation.
+Accessibility	Dark and Light themes both maintain readable contrast; layout remains usable down to 360 px width.
+CHAPTER 3: ANALYSIS & DESIGN
+3.1 System Flow Diagram (CLD / System Level Use Case)
+The system flow diagram shows the student’s journey from selecting a track through the diagnostic quiz, roadmap generation, and into the Roadmap Workspace and Analytics Dashboard.
+ 
+Figure 3.1 – System flow diagram of PathForge
+Data Flow Diagram – Level 0 (Context Diagram)
+The context diagram shows the whole system as one process exchanging data with the Student.
+ 
+Figure 3.2 – Level 0 DFD (Context diagram)
+Data Flow Diagram – Level 1
+The Level 1 diagram splits the system into four processes: run diagnostic & pre-credit, generate roadmap, track progress, and compute analytics, along with three data stores.
+ 
+Figure 3.3 – Level 1 DFD of PathForge
+3.2 Object Diagram
+An object diagram shows real example objects and their values at one moment in time. Figure 3.4 shows a student object, their diagnostic result, and one milestone from their generated roadmap.
+currentStudent : Student	
+id	"std-137"
+name	"Mohammad Tameem Mustafa"
+selectedTrack	"Full-Stack Web Development"
+paceHoursPerWeek	18
+currentStreak	14
+diagResult : DiagnosticResult	
+studentId	"std-137"
+masteredSkillIds	["html-basics", "css-basics"]
+takenOn	"2026-09-01"
+ms_react01 : Milestone	
+id	"ms-react-hooks"
+trackId	"fullstack-web"
+title	"React Hooks Deep Dive"
+stage	"Intermediate"
+estimatedHours	12
+status	"InProgress"
+Explanation: the object currentStudent produces diagResult, which pre-credits basic HTML/CSS skills. The Roadmap Engine uses this result to schedule ms_react01, a remaining Intermediate-stage milestone, which the student is currently working through. The values shown are sample data for illustration.
+3.3 List of Classes & Class Diagram
+List of classes
+Class	Purpose
+Student	Stores the learner’s profile, selected track, study pace and streak.
+CareerTrack	Stores one career track’s metadata (duration, salary, tech stack).
+Milestone	One unit of the roadmap, belonging to a track, with a stage and status.
+Skill	A single skill tied to one milestone.
+QuizQuestion	One diagnostic question tied to a track and a skill.
+DiagnosticResult	The set of skills a student has been confirmed to have mastered.
+RoadmapEngine	Generates the personalised roadmap and estimates the graduation date.
+Class diagram
+ 
+Figure 3.5 – Class diagram of PathForge
+Relationships
+•	A Student selects one CareerTrack and produces many DiagnosticResult records over time.
+•	A CareerTrack has many Milestone records and many QuizQuestion records.
+•	Each Milestone requires exactly one Skill.
+•	RoadmapEngine reads a Student’s DiagnosticResult and schedules that track’s Milestones into an ordered roadmap.
+Data dictionary – Milestone record
+Field	Type	Description
+id	String	Unique identifier for the milestone
+trackId	String	The career track this milestone belongs to
+title	String	Milestone name shown on cards and Kanban
+stage	String	Fundamentals, Intermediate or Advanced
+estimatedHours	Number	Hours of study the milestone typically takes
+status	String	To Learn, In Active Progress or Mastered
+3.4 List of Use Case & Use Case Diagrams
+List of use cases
+ID	Use case	Short description
+UC-01	Select Career Track	Student browses and picks one of five tracks.
+UC-02	Take Diagnostic Quiz / Checklist	Student answers the adaptive quiz or uses a preset check-matrix.
+UC-03	View Generated Roadmap	Student explores the roadmap in Timeline, IDE or Kanban view.
+UC-04	Manage Kanban Board	Student drags milestones between status columns.
+UC-05	Adjust Pace Slider	Student changes weekly study hours to see a new graduation date.
+UC-06	Use Pomodoro Focus Timer	Student runs a 25-minute focused study session.
+UC-07	View Analytics Dashboard	Student checks progress ring, hours and streak.
+UC-08	Customize Theme / Accent	Student switches Dark/Light mode and accent colour.
+ 
+Figure 3.6 – Use case diagram of PathForge
+Use case description – UC-02 Take Diagnostic Quiz / Checklist
+Name	Take Diagnostic Quiz / Checklist
+Actor	Student
+Precondition	Student has selected a career track.
+Main flow	1. Student opens the Skill Diagnostic Benchmark screen.
+2. Student answers 5 adaptive questions, or selects a preset on the Interactive Check Matrix.
+3. System scores the answers against the track’s skill list.
+4. System marks each confirmed skill as Mastered and creates a DiagnosticResult.
+5. Roadmap Engine pre-credits those skills and removes their milestones from the active roadmap.
+6. System shows the personalised roadmap.
+Alternate flow	If the student picks a preset (e.g. “Fresh Beginner”), the system skips the quiz and applies that preset’s predefined mastered-skill list directly.
+Postcondition	The student’s roadmap reflects only the skills still to be learned.
+3.5 Sequence Diagram (Roadmap Generation Lifecycle)
+The sequence diagram traces the messages between the student, the Roadmap UI, the RoadmapEngine and localStorage, from submitting the diagnostic quiz through adjusting the pace slider and updating a Kanban card.
+ 
+Figure 3.7 – Sequence diagram: roadmap generation lifecycle
+Explanation: submitting the quiz triggers scoring and pre-crediting inside the RoadmapEngine, which then reads the track’s milestone list and returns an ordered roadmap. Moving the pace slider recalculates only the graduation-date estimate, without regenerating the whole roadmap. Dragging a Kanban card persists the new status directly to localStorage.
+3.6 Activity Diagram (Student Workflow)
+The activity diagram shows the full student workflow: selecting a track, taking the diagnostic, choosing a roadmap view, and the three parallel paths (Kanban, Timeline + pace slider, IDE + Pomodoro) that all feed into the Analytics Dashboard.
+ 
+Figure 3.8 – Activity diagram of PathForge
+3.7 Deployment Diagram (Vercel & XAMPP Reference)
+The deployment diagram shows the modern live deployment — the React app served from Vercel’s global edge network, or as a single frontend_standalone.html file — alongside the PHP 8 + MySQL reference architecture that is shown inside the app itself for academic viva demonstration, rather than run as a separate live server.
+ 
+Figure 3.9 – Deployment diagram of PathForge
+3.8 Web Site Map Diagram
+The site map shows the main sections of PathForge and the five views inside the Roadmap Workspace.
+ 
+Figure 3.10 – Web site map of PathForge
+Section description
+Section	Description
+Career Track Explorer	Browse 5 tracks with duration, salary and tech-stack preview.
+Skill Diagnostic Benchmark	Adaptive quiz and Interactive Check Matrix with presets.
+Interactive Roadmap	The generated roadmap, explorable across five views.
+Timeline / Network View	Visual sequential milestones, Fundamentals → Advanced.
+IDE Workbench	Project instructions, self-check tests and documentation links per skill.
+Kanban Board	Drag-and-drop status columns: To Learn, In Active Progress, Mastered.
+Sprint Planner & Pace Slider	5–40 hrs/week slider projecting the graduation date.
+Pomodoro Focus Timer	Built-in 25-minute study countdown.
+Analytics Dashboard	Donut progress ring, hours tracker, streak counter.
+Theme & Accent Customizer	Dark/Light mode and 4 accent colour themes.
+CHAPTER 4: IMPLEMENTATION & USER MANUAL
+4.1 User Interface Design (Screens & Modules)
+4.1.1 Career Track Explorer
+The first screen a student sees, listing all five career tracks.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	Cards for Full-Stack Web Dev, Data Analyst, UI/UX Designer, Android Developer, Digital Marketing
+•	Estimated duration in weeks and expected junior salary on each card
+•	Key tech-stack preview tags
+4.1 User Interface Design (continued)
+4.1.2 Skill Diagnostic Benchmark
+Where the student’s existing knowledge is measured.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	5-question adaptive quiz with instant Mastered marking on correct answers
+•	Interactive Check Matrix with one-click presets (Fresh Beginner, CS Student, Career Switcher)
+•	Summary of skills pre-credited and weeks saved
+4.1 User Interface Design (continued)
+4.1.3 Timeline / Network View
+A visual, sequential view of the roadmap.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	Milestones grouped into Fundamentals → Intermediate → Advanced
+•	Connecting lines showing the learning sequence
+•	Status colour coding (To Learn / In Progress / Mastered)
+4.1 User Interface Design (continued)
+4.1.4 IDE Workbench
+A hands-on practice screen for one selected skill.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	Practical project instructions for the selected milestone
+•	Self-check mini tests
+•	Direct links to official documentation (MDN, React, etc.)
+4.1 User Interface Design (continued)
+4.1.5 Kanban Board
+A drag-and-drop board for managing milestone status.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	Three columns: To Learn, In Active Progress, Mastered
+•	Drag-and-drop cards between columns
+•	Card counts per column
+4.1 User Interface Design (continued)
+4.1.6 Sprint Planner & Analytics Dashboard
+Pace planning and progress tracking in one view.
+[ PASTE SCREENSHOT HERE ]
+
+
+Main elements on this screen
+•	Pace Slider from 5 to 40 hours/week with live graduation-date estimate
+•	Pomodoro Focus Timer (25-minute countdown)
+•	Donut progress ring, total study hours, and streak counter (e.g. “14 Days Active”)
+4.1.7 Theme & Accent Customizer
+Accessible from the settings area on every screen.
+•	One-click Dark Mode / Light Mode toggle.
+•	Four accent themes: Emerald Aurora, Electric Violet, Cyber Cyan, and Sunset Amber.
+•	The chosen theme is applied instantly across every view without a page reload.
+4.2 Program Specifications / Flow Charts
+The Roadmap Engine follows a fixed algorithm: load every milestone for the chosen track, skip the ones the diagnostic already confirmed as mastered, then use the remaining milestones and the student’s pace to compute an estimated graduation date.
+ 
+Figure 4.7 – Flow chart of the roadmap-generation algorithm
+Algorithm summary
+Step	Rule
+1. Load milestones	Fetch every milestone belonging to the selected career track, in Fundamentals → Intermediate → Advanced order.
+2. Pre-credit check	For each milestone’s required skill, check the DiagnosticResult; if it is confirmed Mastered, mark the milestone Mastered and exclude its hours from the remaining total.
+3. Build roadmap	Every non-mastered milestone is kept, in order, as the student’s active roadmap.
+4. Sum hours	Add the estimatedHours of every remaining milestone to get the total hours left.
+5. Apply pace	Divide total hours by the pace slider value (hours per week) to get the number of weeks remaining.
+6. Graduation date	Add that many weeks to today’s date to produce the estimated graduation date shown in the Sprint Planner.
+4.3 Code Snippet (Roadmap Engine & PHP/MySQL Reference)
+The core personalisation logic lives in one TypeScript function, generateRoadmap, which pre-credits mastered skills and returns only the milestones the student still needs.
+Roadmap Engine (TypeScript)
+export function generateRoadmap(
+  track: CareerTrack,
+  allMilestones: Milestone[],
+  result: DiagnosticResult
+): Milestone[] {
+  const trackMilestones = allMilestones
+    .filter(m => m.trackId === track.id)
+    .sort((a, b) => STAGE_ORDER[a.stage] - STAGE_ORDER[b.stage]);
+ 
+  return trackMilestones.map(m => {
+    const mastered = result.masteredSkillIds.includes(
+      m.relatedSkillId
+    );
+    return {
+      ...m,
+      status: mastered ? 'Mastered' : 'ToLearn',
+    };
+  });
+}
+ 
+export function estimateGraduationDate(
+  roadmap: Milestone[],
+  paceHoursPerWeek: number
+): string {
+  const remainingHours = roadmap
+    .filter(m => m.status !== 'Mastered')
+    .reduce((sum, m) => sum + m.estimatedHours, 0);
+ 
+  const weeksLeft = Math.ceil(remainingHours / paceHoursPerWeek);
+  const gradDate = new Date();
+  gradDate.setDate(gradDate.getDate() + weeksLeft * 7);
+  return gradDate.toISOString().split('T')[0];
+}
+Explanation
+•	generateRoadmap filters the full milestone list down to just the selected track, sorts by stage, and marks each milestone Mastered or ToLearn by checking whether its skill appears in the student’s masteredSkillIds.
+•	estimateGraduationDate only looks at milestones that are still ToLearn or InProgress, sums their estimated hours, and divides by the student’s weekly pace to get weeks remaining — this is exactly what re-runs live when the Pace Slider moves.
+•	Both functions are pure — given the same inputs they always return the same output — which is what lets the UI recalculate instantly without a server round-trip.
+PHP/MySQL academic reference (excerpt)
+The following is a simplified excerpt from the in-app PHP/MySQL Source Architecture viewer (phpSourceCode.ts), showing how the same Milestone model would be persisted on a traditional XAMPP stack for the academic viva.
+CREATE TABLE IF NOT EXISTS milestones (
+  id VARCHAR(50) PRIMARY KEY,
+  track_id VARCHAR(50) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  stage ENUM('Fundamentals','Intermediate','Advanced'),
+  estimated_hours INT NOT NULL,
+  status ENUM('ToLearn','InProgress','Mastered')
+    DEFAULT 'ToLearn'
+);
+ 
+// get_roadmap.php (PDO, parameterised query)
+$stmt = $conn->prepare(
+  'SELECT * FROM milestones WHERE track_id = :tid
+   ORDER BY FIELD(stage,
+     "Fundamentals","Intermediate","Advanced")'
+);
+$stmt->bindParam(':tid', $trackId);
+$stmt->execute();
+echo json_encode($stmt->fetchAll());
+4.4 Test Procedures, Test Cases and Implementation
+Test procedure. The application was tested manually (functional / black-box testing) by performing each operation from the student’s point of view and comparing the actual result with the expected result, and by verifying the production build compiled cleanly.
+Test cases
+ID	Test scenario	Input	Expected result	Status
+TC-01	Track selection	Click "Full-Stack Web Development"	Track detail (duration, salary, stack) displayed	[  ] Pass  [  ] Fail
+TC-02	Adaptive quiz correct answer	Answer a fundamentals question correctly	Related skill marked Mastered instantly	[  ] Pass  [  ] Fail
+TC-03	Check-matrix preset	Select "CS Student" preset	Predefined skill set marked Mastered without quiz	[  ] Pass  [  ] Fail
+TC-04	Roadmap pre-credit	Complete diagnostic with 2 mastered skills	Those 2 milestones excluded from active roadmap hours	[  ] Pass  [  ] Fail
+TC-05	Kanban drag	Drag a card from To Learn to In Progress	Card moves column; status persists after refresh	[  ] Pass  [  ] Fail
+TC-06	Pace slider recalculation	Move slider from 10 to 20 hrs/week	Graduation date updates immediately, roughly halves weeks remaining	[  ] Pass  [  ] Fail
+TC-07	Pomodoro timer	Click Start on the focus timer	25:00 countdown begins and runs correctly	[  ] Pass  [  ] Fail
+TC-08	Analytics update	Mark a milestone Mastered	Donut ring percentage and hours-completed increase	[  ] Pass  [  ] Fail
+TC-09	Streak counter	Log in on 2 consecutive days	Streak counter increases by 1	[  ] Pass  [  ] Fail
+TC-10	Theme toggle	Switch Dark Mode to Light Mode	Colours invert; text remains readable	[  ] Pass  [  ] Fail
+TC-11	Accent theme change	Select "Cyber Cyan"	Accent colour updates across buttons and highlights	[  ] Pass  [  ] Fail
+TC-12	Data persistence	Refresh the browser after progress changes	Roadmap status and streak remain as before refresh	[  ] Pass  [  ] Fail
+TC-13	IDE Workbench links	Open a milestone’s documentation link	Correct external doc (e.g. MDN, React) opens in a new tab	[  ] Pass  [  ] Fail
+TC-14	Standalone HTML file	Open frontend_standalone.html directly	App loads and functions without a dev server	[  ] Pass  [  ] Fail
+TC-15	Production build	Run npm run build	Build finishes with no errors	[  ] Pass  [  ] Fail
+Note: the Status column is ticked by the tester after running each test case on the final deployed version.
+4.5 User Manual
+Accessing PathForge
+Open any modern browser and visit the deployed application URL — [paste your Vercel URL here] — or open frontend_standalone.html directly for an offline, zero-configuration demo.
+Step-by-step guide
+1.	Choose your track. On the Career Track Explorer, compare duration and salary, then select one of the 5 tracks.
+2.	Take the diagnostic. Answer the 5 adaptive quiz questions honestly, or pick the closest preset on the Interactive Check Matrix if you want a quick start.
+3.	Explore your roadmap. Switch between Timeline, IDE Workbench and Kanban views to find the study style that suits you.
+4.	Plan your pace. On the Sprint Planner, drag the slider to your realistic weekly study hours and note your estimated graduation date.
+5.	Study with focus. Use the Pomodoro timer for 25-minute focused sessions while working through the IDE Workbench.
+6.	Track your progress. Check the Analytics Dashboard regularly to see your progress ring grow and keep your daily streak alive.
+Tips and troubleshooting
+Problem	What to do
+My progress disappeared	Progress is saved in this browser’s localStorage only; it will not appear if you switch browsers, devices, or clear site data.
+My streak reset to 0	The streak counts consecutive days with recorded activity; missing a full day resets it — this is expected behaviour in the current version.
+The graduation date looks unrealistic	Check the Pace Slider — a very low weekly hour value will always produce a longer estimate.
+A milestone still shows even though I know it	Retake the diagnostic quiz or apply a closer preset so that skill is correctly pre-credited.
+4.6 Operations Manual / Menu Explanation
+Menu explanation
+Menu / button	Opens	What the user can do
+Track Explorer	Career track catalog	Browse and select a career track.
+Roadmap	Roadmap Workspace	Switch between Timeline, IDE Workbench and Kanban views.
+Sprint Planner	Pace slider panel	Adjust weekly study hours and see the graduation date.
+Focus Timer	Pomodoro widget	Start/pause a 25-minute study session.
+Analytics	Dashboard	View progress ring, hours completed, and streak.
+Settings (Sun/Moon)	Theme customiser	Switch Dark/Light mode and accent colour.
+Operations for the developer / maintainer
+Operation	Procedure
+Install dependencies	Run npm install in the project folder.
+Run in development	Run npm run dev and open the local link shown in the terminal.
+Create production build	Run npm run build; the output is created in the dist folder.
+Deploy / update (Vercel)	Push the code to GitHub; Vercel builds and deploys automatically (Framework: Vite, Build command: npm run build, Output directory: dist).
+Zero-configuration demo	Open frontend_standalone.html directly in a browser — no server or build step required.
+Show the PHP/MySQL reference	Open the in-app “PHP/MySQL Source Architecture” viewer, sourced from /src/data/phpSourceCode.ts.
+DRAWBACKS AND LIMITATIONS PROPOSED
+1.	Local storage only. Progress is saved in the browser’s localStorage. Clearing browser history, or opening the app on another device, resets all saved skills and progress.
+2.	Mock data. Career tracks, quiz questions and milestones come from a predefined local data file (seedData.ts), not a live cloud server.
+3.	No social login. There is currently no “Sign in with Google” or “Sign in with GitHub” option, so there is no real user account system.
+4.	No cross-device sync. Because there is no backend, a student’s progress cannot follow them between a phone and a laptop.
+ENHANCEMENTS & CONCLUSIONS
+Future enhancements
+•	Cloud database (PostgreSQL / MongoDB) – store user accounts, quiz history and notes permanently in the cloud, replacing localStorage.
+•	AI-powered mentor (Gemini API) – give students automated feedback when they submit their code for practical lab challenges in the IDE Workbench.
+•	LinkedIn & resume exporter – one-click download of an accredited PDF certificate showing all verified skills and project links.
+•	Social login – “Sign in with Google” and “Sign in with GitHub” for real, cross-device accounts.
+Conclusion
+PathForge demonstrates how a diagnostic-first approach — benchmarking a learner before teaching them — can remove wasted effort from self-directed tech education. By combining an adaptive skill quiz, a pre-crediting roadmap engine, multiple ways to view and act on the same roadmap, and pace-aware planning, the system gives each student a personalised, honest path toward a chosen career track. For this milestone, the complete front-end architecture was built using React, TypeScript and Tailwind CSS, with interactive state management for milestone tracking, Kanban workflow, Pomodoro timers and real-time analytics. The next phase is connecting these interfaces to a cloud database and backend REST API for persistent, cross-device user profiles.
+BIBLIOGRAPHY & REFERENCES
+1.	React Documentation — React: the library for web and native user interfaces, Meta Open Source. https://react.dev/
+2.	TypeScript Documentation, Microsoft. https://www.typescriptlang.org/docs/
+3.	Tailwind CSS Documentation — Utility-first CSS framework, Tailwind Labs. https://tailwindcss.com/
+4.	Vite Documentation — Next generation frontend tooling, Evan You & Vite contributors. https://vite.dev/
+5.	MDN Web Docs — JavaScript and Web APIs reference, Mozilla Developer Network. https://developer.mozilla.org/
+6.	PHP Group — PHP Data Objects (PDO) Manual & Prepared Statements. https://www.php.net/manual/en/book.pdo.php
+7.	Vercel Documentation — Deploying Single Page Applications & Edge Configuration, Vercel Inc. https://vercel.com/docs/
+8.	Pressman, R. S. (2014). Software Engineering: A Practitioner’s Approach (8th ed.). McGraw-Hill Education.
+VIVA PREPARATION GUIDE
+FOR YOU ONLY – DO NOT SUBMIT THIS PART. The project book ends at page 44 (Bibliography). Everything from this page onward is your personal study material. Delete these pages before printing or submitting.
+
+A. Fix these before submitting (written from your explainer notes — verify against the real code)
+1.	Guide name – the [placeholder] on the title page, certificate and declaration needs your real project guide’s name.
+2.	College name – I filled in “S.O.C.M.A.C.S. Senior College, Pune” from what I know about you; double-check it matches your official college name exactly.
+3.	Screenshots (section 4.1) – 6 boxes plus the theme customiser. Open the deployed app, take clean screenshots of each screen and paste them in.
+4.	Test case status (section 4.4) – 15 test cases with blank Pass/Fail boxes. Actually run each one on the deployed app before ticking.
+5.	Vercel link (section 4.5) – paste the real deployed URL.
+6.	Roadmap Engine code (section 4.3) – compare generateRoadmap and estimateGraduationDate with your real TypeScript file; function names and logic should match.
+7.	PHP/MySQL reference (section 4.3) – confirm this matches what’s actually in /src/data/phpSourceCode.ts and the in-app viewer; if the app doesn’t actually have that viewer, remove this claim rather than risk it in the viva.
+8.	Sample values – the object diagram values (student id, streak, milestone hours) are illustrative. Swap in real sample data if you show the app live.
+B. Explain the whole project in 60 seconds
+“Good morning, Professor. My project is PathForge, a personalized career roadmap and skill diagnostic platform for aspiring developers and tech students. The main problem it solves is tutorial fatigue and lack of direction. Rather than forcing every student through the exact same syllabus from scratch, my application benchmarks their existing competencies through an adaptive diagnostic quiz and skill matrix. It pre-credits skills they already possess, calculates time saved, and outputs a customized, milestone-driven roadmap across 5 major career tracks. For this milestone, I have completely developed the front-end architecture using React, TypeScript, and Tailwind CSS, with interactive state management for milestone tracking, Kanban workflow boards, Pomodoro study timers, and real-time analytical gauges. The next phase will connect these front-end interfaces to a cloud database and backend REST API for persistent user profiles.”
+C. How the app works – in simple words
+1.	A student opens PathForge and lands on the Career Track Explorer, browsing 5 tracks with duration and salary info.
+2.	They pick a track and take the 5-question diagnostic quiz, or use a one-click preset if they want a faster start.
+3.	The Roadmap Engine checks each milestone’s required skill against what the diagnostic confirmed — anything already known gets pre-credited and skipped.
+4.	The remaining milestones become the student’s personalised roadmap, viewable as a Timeline, an IDE Workbench, or a Kanban board.
+5.	Moving the Pace Slider (5–40 hrs/week) instantly recalculates the estimated graduation date, by dividing remaining hours by the chosen pace.
+6.	Dragging a Kanban card to Mastered updates that milestone’s status, which immediately updates the Analytics Dashboard’s progress ring and hours count.
+7.	The Pomodoro timer runs independently as a 25-minute focus session while the student works through the IDE Workbench.
+8.	All of this — track choice, quiz results, Kanban status, theme — is saved to the browser’s localStorage so it survives a page refresh.
+D. Tech stack – what and why
+Technology	What it is (simple)	Why it was used
+HTML5	Content & structure.	Defines the headings, buttons and cards.
+Tailwind CSS	Utility classes written on elements.	Fast styling for dark/light themes, spacing and rounded corners.
+TypeScript / JavaScript	JavaScript with types, plus the app’s logic.	Calculates percentages, updates bars, runs the timer, prevents type errors.
+React 18	Library to build screens from reusable components.	One <MilestoneCard /> component reused everywhere instead of rewritten fifty times.
+Vite	Build tool / bundler.	Very fast dev server and small production bundle.
+E. Concepts you must be able to explain
+Term	Simple explanation
+Diagnostic-first / pre-crediting	Testing what the student already knows before assigning content, so mastered skills are skipped rather than retaught.
+Roadmap Engine	The TypeScript logic that filters a track’s milestones and marks each one Mastered or ToLearn based on the diagnostic result.
+Pace Slider → graduation date	Remaining hours ÷ hours-per-week = weeks remaining; that many weeks is added to today’s date.
+Pure function	A function that always returns the same output for the same input, with no side effects — this is why the roadmap and graduation date recalculate instantly in the UI.
+localStorage	Browser-based key-value storage that keeps the student’s progress saved between visits, but only on that one browser/device.
+Mock data / seedData.ts	A local file holding all career tracks, milestones and quiz questions, standing in for a real backend database for now.
+Kanban board	A visual board with columns (To Learn, In Progress, Mastered) where dragging a card changes its status.
+Why XAMPP vs. Vercel	XAMPP runs only on your own laptop with no public link; Vercel gives a public HTTPS link that anyone can open from any device, with instant redeploys on every code push.
+F. Diagrams – one line each
+Diagram	What it shows / what to say
+System flow	The student’s path from track selection through the diagnostic, roadmap generation, and into the workspace and analytics.
+DFD Level 0	The whole system as one circle, exchanging quiz answers/pace/Kanban updates for a roadmap, progress % and streak.
+DFD Level 1	Four processes: run diagnostic & pre-credit, generate roadmap, track progress, compute analytics.
+Object diagram	A snapshot of real values: one student, their diagnostic result, and one in-progress milestone.
+Class diagram	The structure: Student, CareerTrack, Milestone, Skill, QuizQuestion, DiagnosticResult and RoadmapEngine.
+Use case diagram	8 use cases, all under a single Student actor (there is no separate admin role in this app).
+Sequence diagram	Step-by-step messages for submitting the quiz, generating the roadmap, adjusting pace, and updating Kanban status.
+Activity diagram	The full flow branching into three roadmap views after diagnostic scoring, all converging on Analytics.
+Deployment diagram	The live Vercel/standalone-HTML deployment, plus the in-app PHP/MySQL reference for the viva.
+Site map	Track Explorer, Diagnostic, Roadmap (with its 5 sub-views), Analytics and Theme Customizer.
+G. Likely viva questions and answers
+Basics
+Q1. What is your project?
+A personalised career roadmap and skill diagnostic platform that benchmarks a student’s existing skills and generates a custom, milestone-driven learning path for one of five tech career tracks.
+Q2. What problem does it solve?
+Tutorial fatigue — generic courses force every learner to start from zero, wasting time on skills they already have and giving no honest estimate of how long the goal will take.
+Q3. What are the 5 career tracks?
+Full-Stack Web Development, Data Analyst, UI/UX Designer, Android App Developer, and Digital Marketing Specialist.
+Q4. Who is the only user of this app?
+The learner/student themselves — there is no separate admin role, since it’s a personal learning tool.
+Technology
+Q5. Why React 18?
+Component-based architecture — one reusable component like <MilestoneCard /> is built once and reused across every milestone instead of duplicating code.
+Q6. Why TypeScript?
+Strongly typed data structures (Student, Milestone, DiagnosticResult) catch mistakes at compile time and make the roadmap logic safer to change.
+Q7. Why Tailwind CSS?
+Fast utility-first styling used to build the dark/light themes and the four accent colour options quickly and consistently.
+Q8. Why Vite?
+Very fast development server and a small, optimised production bundle.
+The roadmap engine
+Q9. How does pre-crediting work?
+For every milestone, the engine checks whether its required skill is in the student’s masteredSkillIds list from the diagnostic; if yes, the milestone is marked Mastered and excluded from the remaining-hours calculation.
+Q10. How is the graduation date calculated?
+Sum the estimatedHours of every milestone that is not yet Mastered, divide by the student’s weekly pace, round up to whole weeks, and add that many weeks to today’s date.
+Q11. Why is generateRoadmap a pure function?
+So the same track, milestones and diagnostic result always produce the same roadmap — this makes it predictable, testable, and fast enough to rerun instantly in the browser.
+Q12. What’s the difference between the adaptive quiz and the check matrix?
+The quiz asks 5 real questions and scores the answers; the check matrix lets the student instead pick a preset (Fresh Beginner, CS Student, Career Switcher) that applies a predefined mastered-skill list directly, skipping the quiz.
+Data and storage
+Q13. Where is student progress stored?
+In the browser’s localStorage — Kanban status, pace, theme and streak all persist there between visits on the same browser.
+Q14. Where do the tracks and milestones come from?
+A local mock data file, seedData.ts, rather than a live server — this is explicitly listed as a current limitation.
+Q15. What happens if I open the app on my phone after using it on my laptop?
+Progress does not carry over, because localStorage is per-browser/per-device; this is a known limitation, with a cloud database planned as a future enhancement.
+Design and analysis
+Q16. Explain your use cases.
+8 use cases — select track, take diagnostic, view roadmap, manage Kanban, adjust pace, use Pomodoro timer, view analytics, customise theme — all performed by the single Student actor.
+Q17. What is the difference between DFD Level 0 and Level 1?
+Level 0 shows the whole system as a single process; Level 1 breaks it into four sub-processes (diagnostic, roadmap generation, progress tracking, analytics) with three data stores.
+Q18. What does the sequence diagram show?
+The order of messages from submitting the quiz, through roadmap generation, pace-slider recalculation, and a Kanban status update reaching localStorage.
+Testing
+Q19. How did you test the project?
+Manual functional testing with 15 test cases covering track selection, the diagnostic, roadmap pre-crediting, Kanban drag-and-drop, the pace slider, the Pomodoro timer, analytics, theming, persistence and the production build.
+Q20. Give one test about the pace slider.
+Moving the pace from 10 to 20 hours/week on the same remaining-hours total should roughly halve the estimated weeks remaining.
+Deployment
+Q21. How did you deploy it?
+Pushed to GitHub, imported the repo into Vercel with Framework: Vite, Build command: npm run build, Output directory: dist; also ships as a single frontend_standalone.html file.
+Q22. Why does your project include both Vercel and XAMPP-style code?
+The live app is a modern React SPA best served by Vercel’s global CDN; the PHP/MySQL reference code is kept in-app so I can demonstrate a traditional relational-database architecture on the college’s XAMPP setup during the viva, since that’s the classic BCA curriculum standard.
+Limitations and future
+Q23. What are the current limitations?
+Progress is localStorage-only (no cloud sync), all content is mock data from seedData.ts, and there’s no social login or real user accounts yet.
+Q24. What would you add next?
+A cloud database (PostgreSQL or MongoDB) for real accounts, an AI-powered mentor using the Gemini API for code feedback, and a LinkedIn/resume PDF exporter.
+H. Tricky questions – answer honestly
+If they ask…	Say this (and don’t claim more than this)
+“Where is your real user database?”	“Currently all progress is stored in browser localStorage — there’s no backend database yet. A cloud database (PostgreSQL or MongoDB) is listed as future work.”
+“Is the PHP/MySQL code actually running anywhere?”	“It’s a reference architecture shown in-app for academic purposes, matching the same data model as the front end — it’s not the live backend of the deployed app.”
+“Does the AI mentor feature work?”	“No, that’s a planned future enhancement using the Gemini API — not implemented in this version.”
+“How do you know the quiz scoring is accurate?”	Be ready to open the quiz data and walk through one question: what answer maps to which skill, and how that skill maps to a milestone.
+“Who wrote the code?”	Be honest about any AI assistance used, and be ready to open and explain generateRoadmap and estimateGraduationDate line by line.
+“Show me the code for X.”	Open the file in VS Code and walk through it. Practise this before the viva: the Roadmap Engine, the Kanban drag handler, and the Pace Slider component.
+I. Vercel and final checklist
+1.	Run npm install, then npm run build. Confirm it finishes without errors.
+2.	Open the local preview and click through every view — Track Explorer, Diagnostic, Timeline, IDE Workbench, Kanban, Sprint Planner, Analytics, Theme — refreshing where relevant.
+3.	Push to GitHub. In Vercel: Add New → Project → import the repo. Framework: Vite, Build command: npm run build, Output directory: dist.
+4.	Open the live link on a phone and confirm the responsive layout holds down to a narrow screen.
+5.	Test frontend_standalone.html by double-clicking it with no dev server running, as a backup demo path.
+6.	Print the book only after adding screenshots, the guide’s name and ticking the test cases. Remove this viva guide (pages 44 onward).

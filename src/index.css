@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #080a11;
+    --card-dark: #0f1422;
+    --card-border: #1e2638;
+    --primary: #10b981;
+    --primary-glow: rgba(16, 185, 129, 0.2);
+  }
+
+  body {
+    background-color: #080a11;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    /* High fidelity crisp engineering grid matching reference screenshot */
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 100% 100%, 42px 42px, 42px 42px;
+    background-position: 0 0, 0 0, 0 0;
+    min-height: 100vh;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #080a11;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Glass Card Styling */
+.card-panel {
+  background-color: rgba(15, 20, 34, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+.card-panel-active {
+  background-color: rgba(15, 20, 34, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.15);
+}
